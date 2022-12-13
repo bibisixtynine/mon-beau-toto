@@ -1,17 +1,26 @@
 .playcanvas {
+    
     position:absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    max-height: 20%;
+    /*
     top: 50%;
     left: 50vw;
-    
+    */
+
+    /*
     max-width: 300px;
     max-height: 300px;
     margin-top: -150px;
     margin-left: -150px;
-
+    */
+/*
     border-style: solid;
     border-width: 2px;
     border-color: rgb(49, 156, 99);
     border-radius: 27px;
-    
+    */
     background-color: transparent;
 }

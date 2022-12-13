@@ -41,7 +41,6 @@ function App() {
         Click on the Vite and React logos to learn more <br />
         So nice man !
       </p>
-      <TextInput />
       <p>some taste of playcanvas ?</p>
       <PlayCanvas />
 
