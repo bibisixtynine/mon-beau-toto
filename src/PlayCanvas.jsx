@@ -5,7 +5,7 @@ import "./PlayCanvas.css"
 function PlayCanvas() {
   const canvasRef = useRef(null);
   const appRef = useRef(null);
-  
+
   let firstUseLayoutEffectCall = true;
 
   useLayoutEffect(() => {
@@ -52,7 +52,9 @@ function PlayCanvas() {
         touch: 'ontouchstart' in window ? new pc.TouchDevice(canvasRef.current) : null,
         graphicsDeviceOptions: { alpha: true },
       });
+
       app.start();
+
       app.loader.getHandler('texture').crossOrigin = 'anonymous';
 
       app.setCanvasFillMode(pc.FILLMODE_FILL_WINDOW);
@@ -64,6 +66,15 @@ function PlayCanvas() {
 
       app.scene.gammaCorrection = pc.GAMMA_SRGB;
       app.scene.toneMapping = pc.TONEMAP_ACES;
+
+      const device = pc.Application.getApplication().graphicsDevice;
+      //if (highTierDevice) {
+      // Use the default device pixel ratio of the device
+      device.maxPixelRatio = window.devicePixelRatio;
+      //} else {
+      // Use the CSS resolution device pixel ratio
+      //  device.maxPixelRatio = 1;
+      //}
 
       /**********************************************
       * ASSET: BLACK MARBLE
@@ -135,11 +146,12 @@ function PlayCanvas() {
         this.entity.setPosition(this.currPos);
       };
       CameraDrift.prototype.handleMove = function (e) {
+        return //jb
         const min = (e.event.view.innerWidth, e.event.view.innerHeight);
         const x = e.event.type === pc.EVENT_TOUCHMOVE ? e.touches[0].x : e.x;
         const y = e.event.type === pc.EVENT_TOUCHMOVE ? e.touches[0].y : e.y;
-        this.toPos.x = 0.75 * (x - e.event.view.innerWidth / 2) / min;
-        this.toPos.y = 0.75 * (y - e.event.view.innerHeight / 2) / -min
+        this.toPos.x = 0.5 * (x - e.event.view.innerWidth / 2) / min;
+        this.toPos.y = 0.5 * (y - e.event.view.innerHeight / 2) / -min;
       };
 
       /**********************************************
@@ -176,16 +188,37 @@ function PlayCanvas() {
         this.dy = 0;
         this.lastPoint = new pc.Vec2(0, 0);
         this.isUserControlling = false;
+        this.isMouseInsideCanvas = false;
 
         if (this.app.touch) {
           this.app.touch.on(pc.EVENT_TOUCHSTART, this.handleStart, this);
           this.app.touch.on(pc.EVENT_TOUCHMOVE, this.handleMove, this);
           this.app.touch.on(pc.EVENT_TOUCHEND, this.handleEnd, this);
         } else {
-          this.app.mouse.on(pc.EVENT_MOUSEDOWN, this.handleStart, this);
-          this.app.mouse.on(pc.EVENT_MOUSEMOVE, this.handleMove, this);
-          this.app.mouse.on(pc.EVENT_MOUSEUP, this.handleEnd, this);
+          // allow to keep mouse tracking when mouse leaves canvas
+          canvasRef.current.addEventListener('mouseleave', (event) => {
+            this.isMouseInsideCanvas = false;
+          });
+          canvasRef.current.addEventListener('mouseenter', (event) => {
+            this.isMouseInsideCanvas = true;
+          });
+          document.addEventListener('mousemove', (event) => {
+            this.handleMoveMouse(event);
+          });
+          document.addEventListener('mouseup', (event) => {
+            this.handleEnd(event);
+          });
+          document.addEventListener('mousedown', (event) => {
+            if (this.isMouseInsideCanvas)
+              this.handleStartMouse(event);
+          });
+          //this.app.mouse.on(pc.EVENT_MOUSEDOWN, this.handleStart, this);
+          //this.app.mouse.on(pc.EVENT_MOUSEMOVE, this.handleMove, this);
+          //this.app.mouse.on(pc.EVENT_MOUSEUP, this.handleEnd, this);
         }
+
+
+
       };
       InertialSpin.prototype.update = function () {
         if (!this.isUserControlling) {
@@ -220,11 +253,21 @@ function PlayCanvas() {
           this.lastPoint.set(e.x, e.y);
         }
       };
+      InertialSpin.prototype.handleStartMouse = function (e) {
+        this.isUserControlling = true;
+        this.lastPoint.set(e.x, e.y);
+      };
       InertialSpin.prototype.handleMove = function (e) {
         if (e.event.type === pc.EVENT_TOUCHMOVE) {
           this.updateDeltas(e.touches[0].x, e.touches[0].y);
           this.rotate();
         } else if (this.app.mouse.isPressed(pc.MOUSEBUTTON_LEFT)) {
+          this.updateDeltas(e.x, e.y);
+          this.rotate();
+        }
+      }
+      InertialSpin.prototype.handleMoveMouse = function (e) {
+        if (this.app.mouse.isPressed(pc.MOUSEBUTTON_LEFT) && (this.isUserControlling)) {
           this.updateDeltas(e.x, e.y);
           this.rotate();
         }
@@ -543,8 +586,8 @@ function PlayCanvas() {
           cubemap.ready(() => {
             this.faces.forEach(f => {
               const mat = f.model.model.meshInstances[0].material;
-              //mat.cubeMap = cubemap.resources;
-              //mat.update();
+              //mat.cubeMap = cubemap.resources; //jb
+              //mat.update(); //jb
             });
           });
         }
@@ -639,10 +682,7 @@ function PlayCanvas() {
           // make the cube red
           cube.model.material = new pc.StandardMaterial();
           cube.model.material.diffuse = new pc.Color(1, 0, 0);
-      
-      
-      
-      
+          
           // add vite.svg as a texture
           const texture = new pc.Texture(app.graphicsDevice, {
             format: pc.PIXELFORMAT_R8_G8_B8_A8,
