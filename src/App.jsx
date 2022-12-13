@@ -23,7 +23,7 @@ function App() {
           //style = {{width: 120}}
           />
         </a>
-
+        <PlayCanvas />
         <a href="https://reactjs.org" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
@@ -42,7 +42,6 @@ function App() {
         So nice man !
       </p>
       <p>some taste of playcanvas ?</p>
-      <PlayCanvas />
 
     </div>
   )

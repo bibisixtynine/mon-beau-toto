@@ -601,7 +601,7 @@ function PlayCanvas() {
       cube.addComponent('script');
       cube.script.create(InertialSpin.__name);
       cube.script.create(RaycastFaces.__name);
-      cube.setLocalScale(0.6, 0.6, 0.6);
+      cube.setLocalScale(0.8, 0.8, 0.8);
       app.root.addChild(cube);
 
       /**********************************************
@@ -733,9 +733,9 @@ function PlayCanvas() {
   }, []);
 
   return (
-    <div>
+    <a>
       <canvas ref={canvasRef} className="playcanvas" />
-    </div>
+    </a>
   );
 }
 
