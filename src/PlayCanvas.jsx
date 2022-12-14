@@ -373,7 +373,7 @@ function PlayCanvas() {
             //console.log( Math.max(...mi.aabb.halfExtents.data) * 1.75 )
             
             console.log( mi.aabb.center );
-            console.log(mi.aabb.halfExtents.data);
+            console.log(mi.aabb.halfExtents);
             //const sphere = new pc.BoundingSphere(mi.aabb.center, Math.max(...mi.aabb.halfExtents.data) * 1.75);
             console.log("^ intersectObject ^")
 
