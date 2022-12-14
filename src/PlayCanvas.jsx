@@ -547,6 +547,11 @@ function PlayCanvas() {
           urls.slice(0, 6).forEach((url, i) => {
             this.faces[i].onClick = function () {
               window.open(url, '_blank', 'noopener,noreferrer')
+              const initialColor = document.body.style.backgroundColor
+              document.body.style.backgroundColor = 'red'
+              setTimeout(() => {
+                document.body.style.backgroundColor = initialColor;
+              },1000)
             }
           })
         }
