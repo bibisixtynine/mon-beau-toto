@@ -267,10 +267,13 @@ function PlayCanvas() {
         }
       }
       InertialSpin.prototype.handleMoveMouse = function (e) {
+        console.log("v handleMoveMouse v")
         if (this.app.mouse.isPressed(pc.MOUSEBUTTON_LEFT) && (this.isUserControlling)) {
           this.updateDeltas(e.x, e.y);
           this.rotate();
         }
+        console.log("^ handleMoveMouse ^")
+
       }
       InertialSpin.prototype.handleEnd = function (e) {
         this.isUserControlling = false;
