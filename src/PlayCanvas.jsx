@@ -364,11 +364,13 @@ function PlayCanvas() {
             const b = new pc.Vec3();
             const c = new pc.Vec3();
             const modelMatrix = new pc.Mat4();
-            console.log("v intersectObject v")
+            
 
             const mi = meshInstances[i];
             const mesh = mi.mesh;
             // TODO: remove 1.75 hack for making sphere big enough
+            console.log("v intersectObject v")
+            console.log(mi)
             const sphere = new pc.BoundingSphere(mi.aabb.center, Math.max(...mi.aabb.halfExtents.data) * 1.75);
             console.log("^ intersectObject ^")
 
