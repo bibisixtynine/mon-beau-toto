@@ -258,6 +258,8 @@ function PlayCanvas() {
         this.lastPoint.set(e.x, e.y);
       };
       InertialSpin.prototype.handleMove = function (e) {
+        console.log("v handleMove v")
+
         if (e.event.type === pc.EVENT_TOUCHMOVE) {
           this.updateDeltas(e.touches[0].x, e.touches[0].y);
           this.rotate();
@@ -265,6 +267,8 @@ function PlayCanvas() {
           this.updateDeltas(e.x, e.y);
           this.rotate();
         }
+        console.log("^ handleMove ^")
+
       }
       InertialSpin.prototype.handleMoveMouse = function (e) {
         console.log("v handleMoveMouse v")
