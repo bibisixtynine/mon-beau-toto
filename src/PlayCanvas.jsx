@@ -258,7 +258,6 @@ function PlayCanvas() {
         this.lastPoint.set(e.x, e.y);
       };
       InertialSpin.prototype.handleMove = function (e) {
-        console.log("v handleMove v")
 
         if (e.event.type === pc.EVENT_TOUCHMOVE) {
           this.updateDeltas(e.touches[0].x, e.touches[0].y);
@@ -267,16 +266,13 @@ function PlayCanvas() {
           this.updateDeltas(e.x, e.y);
           this.rotate();
         }
-        console.log("^ handleMove ^")
 
       }
       InertialSpin.prototype.handleMoveMouse = function (e) {
-        console.log("v handleMoveMouse v")
         if (this.app.mouse.isPressed(pc.MOUSEBUTTON_LEFT) && (this.isUserControlling)) {
           this.updateDeltas(e.x, e.y);
           this.rotate();
         }
-        console.log("^ handleMoveMouse ^")
 
       }
       InertialSpin.prototype.handleEnd = function (e) {
@@ -368,11 +364,13 @@ function PlayCanvas() {
             const b = new pc.Vec3();
             const c = new pc.Vec3();
             const modelMatrix = new pc.Mat4();
+            console.log("v intersectObject v")
 
             const mi = meshInstances[i];
             const mesh = mi.mesh;
             // TODO: remove 1.75 hack for making sphere big enough
             const sphere = new pc.BoundingSphere(mi.aabb.center, Math.max(...mi.aabb.halfExtents.data) * 1.75);
+            console.log("^ intersectObject ^")
 
             modelMatrix.copy(mi.node.getWorldTransform());
 
