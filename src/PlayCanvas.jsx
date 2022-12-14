@@ -371,8 +371,9 @@ function PlayCanvas() {
             // TODO: remove 1.75 hack for making sphere big enough
             console.log("v intersectObject v")
             //console.log( Math.max(...mi.aabb.halfExtents.data) * 1.75 )
-
-            console.log( mi.aabb.center )
+            
+            console.log( mi.aabb.center );
+            console.log(mi.aabb.halfExtents.data);
             //const sphere = new pc.BoundingSphere(mi.aabb.center, Math.max(...mi.aabb.halfExtents.data) * 1.75);
             console.log("^ intersectObject ^")
 
