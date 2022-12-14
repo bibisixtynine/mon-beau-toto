@@ -370,7 +370,7 @@ function PlayCanvas() {
             const mesh = mi.mesh;
             // TODO: remove 1.75 hack for making sphere big enough
             console.log("v intersectObject v")
-            //console.log( Math.max(...mi.aabb.halfExtents.data) * 1.75 )
+            console.log( Math.max(...mi.aabb.halfExtents.data) * 1.75 )
 
             //console.log( mi.aabb.center )
             //const sphere = new pc.BoundingSphere(mi.aabb.center, Math.max(...mi.aabb.halfExtents.data) * 1.75);
